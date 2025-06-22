@@ -1,0 +1,12 @@
+ultralytics
+onnx<1.18.0
+onnxslim
+ncnn
+onnxruntime
+blacksheep[full]>=2.3.0
+uvicorn~=0.34.0
+uvloop; platform_system != "Windows"
+essentials-configuration[full]
+MarkupSafe
+pydantic
+

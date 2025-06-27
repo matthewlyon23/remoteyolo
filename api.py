@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from blacksheep import post, status_code, FromForm, FormPart, pretty_json
+from blacksheep import post, status_code, FromForm, FormPart, pretty_json, Application
 from blacksheep.server.headers.cache import cache_control
 import concurrent.futures
 import asyncio
 import io
 from PIL.Image import Image, open
-from .yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager
+from yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager
 from json import JSONDecoder
 from ultralytics.engine.results import Results
 
@@ -37,6 +37,8 @@ class YOLOAnalysisRequest:
             case _:
                 self.format = 'undefined'
         self.image = open(io.BytesIO(image[0].data))
+
+app = Application()
 
 @post("/api/analyse")
 @cache_control(no_cache=True, no_store=True)

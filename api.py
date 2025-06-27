@@ -1,12 +1,9 @@
 from dataclasses import dataclass
-from blacksheep import post, status_code, FromForm, FormPart, pretty_json, Application
+from blacksheep import post, status_code, FromForm, FormPart, pretty_json, Application, Request
 from blacksheep.server.headers.cache import cache_control
-import concurrent.futures
-import asyncio
 import io
 from PIL.Image import Image, open
 from yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager
-from json import JSONDecoder
 from ultralytics.engine.results import Results
 
 @dataclass
@@ -42,15 +39,23 @@ app = Application()
 
 @post("/api/analyse")
 @cache_control(no_cache=True, no_store=True)
-async def analyse_image(form: FromForm[YOLOAnalysisRequest]):
-    if (form.value.model == "undefined"): 
+async def analyse_image(request: Request):
+    form: dict[str, any] = await request.form()
+    
+    format = form.get("format", YOLOModelFormat.NCNN)
+    model = form.get("model", YOLOModel.YOLO11N)
+    
+    if "image" not in form:
+        return status_code(400, {"success": False, "error": "You must provide an image"})    
+    
+    request: YOLOAnalysisRequest = YOLOAnalysisRequest(model, format, form["image"])
+    
+    if request.model == "undefined":
         return status_code(400, {"success": False, "error": "The provided YOLO model is not supported. Please use one of " + ", ".join([f"'{i.lower()}'" for i in list(YOLOModel.__members__.keys())])})
-    if (form.value.format == "undefined"):
-        return status_code(400, {"success": False, "error": "The provided YOLO model format is not supported. Please use one of " + ", ".join([f"'{i.lower()}'" for i in list(YOLOModelFormat.__members__.keys())])})
-    request = form.value
+        
+    if request.format == "undefined":
+        return status_code(400, {"success": False, "error": "The provided format is not supported. Please use one of " + ", ".join([f"'{i.lower()}'" for i in list(YOLOModelFormat.__members__.keys())])})
     result: Results = YOLOAnalysisManager.do_yolo_analysis(request.model, request.format, request.image)
     response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names}, "result":result.summary()}
     
     return response_data
-    
-    

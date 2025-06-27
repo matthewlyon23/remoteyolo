@@ -26,11 +26,10 @@ if __name__ == "__main__":
     if prefix:
         prefix = prefix.strip("/") + "/"
     console = Console()
-    console.rule("[bold yellow]Running for local development", align="left")
-    console.print(f"[bold yellow]Visit http://localhost:{port}/{prefix}docs/\n")
-
+    
+    
     uvicorn.run(
-        "app.main:app",
+        "api:app",
         host="0.0.0.0",
         port=port,
         lifespan="on",

@@ -9,4 +9,5 @@ uvloop; platform_system != "Windows"
 essentials-configuration[full]
 MarkupSafe
 pydantic
+opencv-contrib-python-headless
 

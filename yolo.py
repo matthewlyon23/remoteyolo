@@ -41,7 +41,7 @@ class YOLOAnalysisManager:
     def do_yolo_analysis(yolo_model: YOLOModel, format: YOLOModelFormat, image: Image) -> Results:
         if yolo_model!=YOLOAnalysisManager.yolo_model_variant or format!=YOLOAnalysisManager.yolo_model_format:
             YOLOAnalysisManager.__load_yolo_variant__(yolo_model, format)
-        results = YOLOAnalysisManager.yolo_model.predict(source=image, task="detect", verbose=False, save=True)
+        results = YOLOAnalysisManager.yolo_model.predict(source=image, task="detect", verbose=False)
         return results[0]
         
     

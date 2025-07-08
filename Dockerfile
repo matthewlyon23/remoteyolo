@@ -48,4 +48,5 @@ RUN apt-get update && apt-get install \
     libxext6 \
     libgl1 \
     libglib2.0-0
+RUN . venv/bin/activate && python download_models.py
 CMD ["sh", "-c", ". venv/bin/activate && uvicorn \"api:app\" --host 0.0.0.0 --port 80 --log-level info"]

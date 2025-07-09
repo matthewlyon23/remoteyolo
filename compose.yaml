@@ -3,7 +3,7 @@ services:
     container_name: "remoteyolo"
     build: .
     ports:
-      - "44777:80"
+      - "80:80"
     tty: true
     restart: "unless-stopped"
     

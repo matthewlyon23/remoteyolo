@@ -1,11 +1,13 @@
 # remoteyolo
 A YOLO11 processing server written in Python with the [Blacksheep](https://github.com/Neoteroi/BlackSheep) library.
 
+The server is designed with real-time applications in mind. The implementation is therefore as minimal as possible to reduce processing latency.
+
 ## Endpoints
 
-### /api/analyse
+### POST - /api/analyse
 
-Accepts: multipart/form-data
+**Accepts: multipart/form-data**
 
 Parameters:
 | parameter | content-type | required | default |
@@ -88,7 +90,7 @@ Supported Formats:
 | ------ | --------- |
 | ncnn   | ✅        |
 | onnx   | ✅        |
-| pytorch  | ✅        |
+| pytorch| ✅        |
 
 ## Copyright
 

@@ -25,11 +25,11 @@ class YOLOAnalysisManager:
         try:
             match yolo_model_format:
                 case YOLOModelFormat.ONNX:
-                    YOLOAnalysisManager.yolo_model = YOLO(f"{yolo_model}.onnx")
+                    YOLOAnalysisManager.yolo_model = YOLO(f"{yolo_model}.onnx", task="detect")
                 case YOLOModelFormat.NCNN:
-                    YOLOAnalysisManager.yolo_model = YOLO(f"{yolo_model}_ncnn_model")
+                    YOLOAnalysisManager.yolo_model = YOLO(f"{yolo_model}_ncnn_model", task="detect")
                 case _:
-                    YOLOAnalysisManager.yolo_model = YOLO(yolo_model)
+                    YOLOAnalysisManager.yolo_model = YOLO(yolo_model, task="detect")
             YOLOAnalysisManager.yolo_model_format = yolo_model_format
             YOLOAnalysisManager.yolo_model_variant = yolo_model
         except:
@@ -41,7 +41,7 @@ class YOLOAnalysisManager:
     def do_yolo_analysis(yolo_model: YOLOModel, format: YOLOModelFormat, image: Image) -> Results:
         if yolo_model!=YOLOAnalysisManager.yolo_model_variant or format!=YOLOAnalysisManager.yolo_model_format:
             YOLOAnalysisManager.__load_yolo_variant__(yolo_model, format)
-        results = YOLOAnalysisManager.yolo_model.predict(source=image, task="detect", verbose=False)
+        results = YOLOAnalysisManager.yolo_model.predict(source=image, task="detect", verbose=False, save=True)
         return results[0]
         
     

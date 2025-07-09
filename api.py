@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-from blacksheep import post, status_code, FromForm, FormPart, pretty_json, Application, Request
+from blacksheep import post, status_code, FormPart, Application, Request
 from blacksheep.server.headers.cache import cache_control
-from blacksheep.server.openapi.v3 import OpenAPIHandler
-from openapidocs.v3 import Info
-from blacksheep.server.openapi.common import ResponseInfo, ParameterInfo, ContentInfo, RequestBodyInfo
 import io
 from PIL.Image import Image, open
 from yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager

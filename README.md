@@ -1,7 +1,7 @@
 # remoteyolo
 A YOLO11 processing server written in Python with the [Blacksheep](https://github.com/Neoteroi/BlackSheep) library.
 
-The server is designed with real-time applications in mind. The implementation is therefore as minimal as possible to reduce processing latency.
+The server is designed with real-time applications in mind, therefore the implementation is as minimal as possible to reduce processing latency.
 
 This project was created as part of the [YOLOQuestUnity](https://github.com/matthewlyon23/yoloquestunity) project.
 

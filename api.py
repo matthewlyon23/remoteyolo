@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from blacksheep import post, status_code, FromForm, FormPart, pretty_json, Application, Request
 from blacksheep.server.headers.cache import cache_control
+from blacksheep.server.openapi.v3 import OpenAPIHandler
+from openapidocs.v3 import Info
+from blacksheep.server.openapi.common import ResponseInfo, ParameterInfo, ContentInfo, RequestBodyInfo
 import io
 from PIL.Image import Image, open
 from yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager
@@ -14,26 +17,8 @@ class YOLOAnalysisRequest:
     image: Image
     
     def __init__(self, model: YOLOModel, format: YOLOModelFormat, image: list[FormPart]):
-        match model:
-            case YOLOModel.YOLO11N:
-                self.model = YOLOModel.YOLO11N
-            case YOLOModel.YOLO11M:
-                self.model = YOLOModel.YOLO11M
-            case YOLOModel.YOLO11S:
-                self.model = YOLOModel.YOLO11S
-            case YOLOModel.YOLO11L:
-                self.model = YOLOModel.YOLO11L
-            case _:
-                self.model = 'undefined'   
-        match format:
-            case YOLOModelFormat.ONNX:
-                self.format = YOLOModelFormat.ONNX
-            case YOLOModelFormat.PYTORCH:
-                self.format = YOLOModelFormat.PYTORCH
-            case YOLOModelFormat.NCNN:
-                self.format = YOLOModelFormat.NCNN
-            case _:
-                self.format = 'undefined'
+        self.model = model if str(model) in [i.lower() for i in YOLOModel._member_names_] else "undefined" # type: ignore
+        self.format = format if str(format) in [i.lower() for i in YOLOModelFormat._member_names_] else "undefined" # type: ignore
         self.image = open(io.BytesIO(image[0].data))
 
 app = Application()
@@ -49,6 +34,9 @@ async def analyse_image(request: Request):
     
     if "image" not in form:
         return status_code(400, {"success": False, "error": "You must provide an image"})    
+    
+    if type(form["image"]) != list:
+        return status_code(400, {"success": False, "error": "Provided image is not in the correct format"})
     
     analysis_request: YOLOAnalysisRequest = YOLOAnalysisRequest(model, format, form["image"])
     

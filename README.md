@@ -30,7 +30,9 @@ curl -L \
   http://host:port/api/analyse
 ```
 
-Example Response:
+Example Responses:
+
+**200**
 
 ```json
 {
@@ -71,6 +73,15 @@ Example Response:
   ]
 }
 
+```
+
+**400**
+
+```json
+{
+  "success": false,
+  "error": "The provided format is not supported. Please use one of 'ncnn', 'onnx', 'pytorch'"
+}
 ```
 
 ## Models

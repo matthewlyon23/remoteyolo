@@ -43,7 +43,7 @@ async def analyse_image(request: Request):
     if analysis_request.format == "undefined":
         return status_code(400, {"success": False, "error": "The provided format is not supported. Please use one of " + ", ".join([f"'{i.lower()}'" for i in list(YOLOModelFormat.__members__.keys())])})
     
-    result: Results = YOLOAnalysisManager.do_yolo_analysis(analysis_request.model, analysis_request.format, analysis_request.image)
+    result: Results = YOLOAnalysisManager.analyse_image(analysis_request.model, analysis_request.format, analysis_request.image)
     end = datetime.now()
 
     response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names, "request":{"time_ms": (end-start).microseconds/1000}}, "result":result.summary()}

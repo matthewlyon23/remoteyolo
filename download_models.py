@@ -1,5 +1,5 @@
-# Simple convenience script to load the 
-# model supported by the yolo.py module.
+# Simple convenience script to download the 
+# models supported by the yolo.py module.
 #
 # This is useful if the device hosting
 # the processing server may not be connected

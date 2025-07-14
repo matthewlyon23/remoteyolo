@@ -48,8 +48,9 @@ async def analyse_image(request: Request):
 
     summary = result.summary()
     for entry in summary:
+        c = entry['class']
         summary.remove(entry)
-        entry['class_id'] = entry['class']
+        entry['class_id'] = c
         entry.pop('class')
         summary.append(entry)
 

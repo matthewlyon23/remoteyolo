@@ -46,5 +46,12 @@ async def analyse_image(request: Request):
     result: Results = YOLOAnalysisManager.analyse_image(analysis_request.model, analysis_request.format, analysis_request.image)
     end = datetime.now()
 
-    response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names, "request":{"time_ms": (end-start).microseconds/1000}}, "result":result.summary()}
+    summary = result.summary()
+    for entry in summary:
+        summary.remove(entry)
+        entry['class_id'] = entry['class']
+        entry.pop('class')
+        summary.append(entry)
+
+    response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names, "request":{"time_ms": (end-start).microseconds/1000}}, "result":summary}
     return response_data

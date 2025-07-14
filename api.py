@@ -48,11 +48,8 @@ async def analyse_image(request: Request):
 
     summary = result.summary()
     for entry in summary:
-        c = entry['class']
-        summary.remove(entry)
+        c = entry.pop("class")
         entry['class_id'] = c
-        entry.pop('class')
-        summary.append(entry)
 
     response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names, "request":{"time_ms": (end-start).microseconds/1000}}, "result":summary}
     return response_data

@@ -72,7 +72,7 @@ Example Responses:
   "result": [
     {
       "name": "person",
-      "class": 0,
+      "class_id": 0,
       "confidence": 0.57129,
       "box": {
         "x1": 1090.13672,

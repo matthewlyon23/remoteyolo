@@ -23,6 +23,12 @@ app = Application()
 @post("/api/analyse")
 @cache_control(no_cache=True, no_store=True)
 async def analyse_image(request: Request):
+    if request.headers.get_first(b"Content-Type") == None:
+        return status_code(405, {"success": False, "error": "This endpoint accepts only multipart/form-data"})
+
+    if request.headers.get_first(b"Content-Type").decode().split(";")[0] != "multipart/form-data":
+        return status_code(405, {"success": False, "error": "This endpoint accepts only multipart/form-data, not " + request.headers.get_first(b"Content-Type").decode().split(";")[0]})
+    
     start = datetime.now()
     form: dict = await request.form() # type: ignore
     
@@ -53,3 +59,8 @@ async def analyse_image(request: Request):
 
     response_data = {"success": True,  "metadata": {"speed": result.speed, "names": result.names, "request":{"time_ms": (end-start).microseconds/1000}}, "result":summary}
     return response_data
+
+@post("/api/custom-model")
+async def upload_custom_model(request: Request):
+    form = await request.form()
+    pass

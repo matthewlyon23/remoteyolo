@@ -9,6 +9,7 @@ from yolo import YOLOModelFormat, YOLOModel, YOLOAnalysisManager, AnalysisResult
 from ultralytics.engine.results import Results
 from datetime import datetime
 import os
+import shutil
 
 @dataclass
 class YOLOAnalysisRequest:
@@ -129,6 +130,10 @@ async def upload_custom_model(request: Request):
 
     if os.path.exists("custom.pt") and os.path.isfile("custom.pt"):
         os.remove("custom.pt")
+    if os.path.exists("custom_ncnn_model"):
+        shutil.rmtree("custom_ncnn_model")
+    if os.path.exists("custom.onnx") :
+        os.remove("custom.onnx")
     os.rename("custom_temp.pt", "custom.pt")
 
     end = datetime.now()

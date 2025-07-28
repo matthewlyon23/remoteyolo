@@ -1,11 +1,22 @@
 # remoteyolo
-A YOLO11 processing server written in Python with the [Blacksheep](https://github.com/Neoteroi/BlackSheep) library.
+A YOLO processing server written in Python with the [Blacksheep](https://github.com/Neoteroi/BlackSheep) library.
 
 The server is designed with real-time applications in mind, therefore the implementation is as minimal as possible to reduce processing latency.
 
 This project was created as part of the [YOLOQuestUnity](https://github.com/matthewlyon23/yoloquestunity) project.
 
+**Contents**
+
+- [`Endpoints`](#endpoints)
+- [`Models`](#models)
+- [`Formats`](#formats)
+
 ## Endpoints
+
+### /api/
+
+- [`POST - /api/analyse`](#post---apianalyse)
+- [`POST - /api/custom-model`](#post---apicustom-model)
 
 ### POST - /api/analyse
 
@@ -61,7 +72,7 @@ Example Responses:
   "result": [
     {
       "name": "person",
-      "class": 0,
+      "class_id": 0,
       "confidence": 0.57129,
       "box": {
         "x1": 1090.13672,
@@ -84,6 +95,61 @@ Example Responses:
 }
 ```
 
+### POST - /api/custom-model
+
+**Accepts: multipart/form-data**
+
+Parameters:
+| parameter | content-type | required | default |
+|---|---|---|---|
+| **model** | `application/octet-stream` | ✅ | `none` |
+
+The `model` parameter is a YOLO model stored as a pytorch `.pt` model file. The filename must end with the `.pt` extension.
+
+Example Request:
+
+```bash
+curl -L \
+  -X POST \
+  -H "Accept: application/json" \
+  -F model=@path/to/model \
+  http://host:port/api/custom-model
+```
+
+Example Responses:
+
+**201**
+
+```json
+{
+  "success": true,
+  "result": "Accepted custom model custom.pt",
+  "metadata": {
+    "request": {
+      "time_ms": 18.955
+    }
+  }
+}
+```
+
+**400**
+
+```json
+{
+  "success": false,
+  "error": "You must provide a valid custom model file in .pt format."
+}
+```
+
+**422**
+
+```json
+{
+  "success": false,
+  "error": "Provided custom model is not a valid YOLO model, please provide a valid YOLO model."
+}
+```
+
 ## Models
 
 The current implementation supports all YOLO11 model variants.
@@ -94,6 +160,9 @@ The current implementation supports all YOLO11 model variants.
 | yolo11s | ✅ |
 | yolo11m | ✅ |
 | yolo11l | ✅ |
+| custom  | ✅ |
+
+To use the 'custom' model type, a corresponding custom.pt, custom.onnx or custom_ncnn_model must exist in the root directory of the application. This can either be added manually or can be uploaded in .pt format using the [custom-model](#post---apicustom-model) endpoint.
 
 ## Formats
 

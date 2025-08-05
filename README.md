@@ -10,6 +10,7 @@ This project was created as part of the [YOLOQuestUnity](https://github.com/matt
 - [`Endpoints`](#endpoints)
 - [`Models`](#models)
 - [`Formats`](#formats)
+- [`Installation & Usage`](#installation-and-usage)
 
 ## Endpoints
 
@@ -173,6 +174,45 @@ Supported Formats:
 | ncnn   | ✅        |
 | onnx   | ✅        |
 | pytorch| ✅        |
+
+## Installation and Usage
+
+### Requirements
+
+- \>= Python 3.12
+- pip
+
+### Installation
+
+Linux/Unix:
+
+```sh
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Windows:
+
+```sh
+python -m venv .venv
+.venv/bin/activate.ps1
+pip install -r requirements.txt
+```
+
+### Usage
+
+The server can be run directly in development mode simply by running:
+
+```sh
+python dev.py
+```
+
+The repository also provides a Dockerfile which includes all requirements and deploys the server in production mode. The easiest way to use this is with the provided Docker Compose file.
+
+```sh
+docker compose up -d
+```
 
 ## Copyright
 

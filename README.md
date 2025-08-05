@@ -214,6 +214,12 @@ The repository also provides a Dockerfile which includes all requirements and de
 docker compose up -d
 ```
 
+#### Model Download Script
+
+A script, [`download_models.py`](/download_models.py), has been provided which downloads all default models supported by the server. This is essential when the device hosting the server may not be connected to the internet, so all models must be downloaded prior to attempting to use them. 
+
+If the device is connected to the internet, the models will be downloaded automatically, thought this will result in a longer response time.
+
 ## Copyright
 
 Matthew Lyon © 2025

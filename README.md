@@ -32,6 +32,8 @@ Parameters:
 
 Example Request:
 
+**Note that the @ preceding the image path is required in curl**
+
 ```bash
 curl -L \
   -X POST \
@@ -108,6 +110,8 @@ Parameters:
 The `model` parameter is a YOLO model stored as a pytorch `.pt` model file. The filename must end with the `.pt` extension.
 
 Example Request:
+
+**Note that the @ preceding the model path is required in curl**
 
 ```bash
 curl -L \
